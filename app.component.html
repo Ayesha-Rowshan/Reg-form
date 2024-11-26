@@ -1,0 +1,35 @@
+<app-registrationapp [studentToEdit]="studentToEdit" (onSubmitStudent)="addOrUpdateStudent($event)" (onClose)="closeRegistrationForm()" *ngIf="isModalOpen"></app-registrationapp>
+
+<button class="btn btn-primary" (click)="openRegistrationForm()">OpenRegistrationForm</button>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Father's Name</th>
+      <th>Gender</th>
+      <th>Date of Birth</th>
+      <th>Department</th>
+      <th>Address</th>
+      <th>Email</th>
+      <th>Password</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let student of studentData; let i = index">
+      <td>{{ student.name }}</td>
+      <td>{{ student.fatherName }}</td>
+      <td>{{ student.gender }}</td>
+      <td>{{ student.dob }}</td>
+      <td>{{ student.department }}</td>
+      <td>{{ student.address }}</td>
+      <td>{{ student.email }}</td>
+      <td>{{ student.password }}</td>
+      <td>
+        <button class="btn btn-primary" (click)="editStudent(i)">Edit</button>
+        <button class="btn btn-danger" (click)="deleteStudent(i)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

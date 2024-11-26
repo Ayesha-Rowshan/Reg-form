@@ -1,0 +1,158 @@
+<div class="modal show d-block">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><b>Student Registration</b></h5>
+        <button type="button" class="btn-close" (click)="closeRegistrationForm()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="studentForm" (ngSubmit)="addOrUpdateStudent()">
+          <div class="row mb-3">
+            <label for="studentName" class="col-md-3 col-form-label">
+              <b>Student Name<span>:</span></b>
+            </label>
+            <div class="col-md-9">
+              <input type="text" class="form-control"id="studentName"formControlName="name"placeholder="Enter Student Name" required/>
+              <div *ngIf="studentForm.get('name')?.touched && studentForm.get('name')?.invalid" class="text-danger">
+                <small *ngIf="studentForm.get('name')?.errors?.['required']">Student Name is required.</small>
+              </div>
+            </div>
+          </div>
+           <div class="row mb-3">
+            <label for="fatherName" class="col-md-3 col-form-label">
+              <b>Father's Name<span class="c">:</span></b>
+            </label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" id="fatherName" formControlName="fatherName" placeholder="Enter Father's Name" required />
+              <div *ngIf="studentForm.get('fatherName')?.touched && studentForm.get('fatherName')?.invalid" class="text-danger">
+                <small *ngIf="studentForm.get('fatherName')?.errors?.['required']">Father's Name is required.</small>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="gender" class="col-md-3 col-form-label">
+              <b>Gender<span class="d">:</span></b>
+            </label>
+            <div class="col-md-9 d-flex align-items-center">
+              <div class="form-check me-3">
+                <input class="form-check-input" type="radio" id="male" formControlName="gender" value="Male"/>
+                 <label class="form-check-label" for="male">Male</label>
+                </div>
+              <div class="form-check">
+               <input class="form-check-input" type="radio" id="female" formControlName="gender" value="Female" />
+              <label class="form-check-label" for="female">Female</label>
+                </div>
+              </div>
+              <div *ngIf="studentForm.get('gender')?.touched && studentForm.get('gender')?.invalid" class="text-danger">
+                <small class="Gender" *ngIf="studentForm.get('gender')?.errors?.['required']">Gender is required.</small>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="dob" class="col-md-3 col-form-label">
+                <b>Date of Birth<span class="e">:</span></b>
+              </label>
+              <div class="col-md-9">
+                <input type="date" class="form-control" id="dob" formControlName="dob"/>
+                <div *ngIf="studentForm.get('dob')?.touched && studentForm.get('dob')?.invalid" class="text-danger">
+                  <small *ngIf="studentForm.get('dob')?.errors?.['required']">Date of Birth is required.</small>
+              </div>
+            </div>
+            </div>
+            <div class="row mb-3">
+              <label for="department" class="col-md-3 col-form-label">
+                <b>Department<span class="f">:</span></b>
+              </label>
+              <div class="col-md-9">
+                <select id="department" class="form-control" formControlName="department" required>
+                  <option *ngFor="let department of departments" [value]="department">
+                    {{ department }}
+                  </option>
+                </select>
+                <div *ngIf="studentForm.get('department')?.touched && studentForm.get('department')?.invalid" class="text-danger mt-1">
+                  <small *ngIf="studentForm.get('department')?.errors?.['required']">Department is required.</small>
+                </div>
+              </div>
+            </div>
+             <div class="row mb-3">
+              <label for="address" class="col-md-3 col-form-label">
+                <b>Address<span class="g">:</span></b>
+              </label>
+              <div class="col-md-9">
+                <textarea class="form-control" id="address" formControlName="address" placeholder="Enter your address" rows="3"required ></textarea>
+                <div *ngIf="studentForm.get('address')?.touched && studentForm.get('address')?.invalid" class="text-danger">
+                  <small *ngIf="studentForm.get('address')?.errors?.['required']">Address is required.</small>
+                </div>
+              </div>
+            </div>
+             <div class="row mb-3">
+              <label for="email" class="col-md-3 col-form-label">
+                <b>Email Id<span class="h">:</span></b>
+              </label>
+              <div class="col-md-9">
+                <input type="email" class="form-control"id="email"formControlName="email" placeholder="Enter Email Address" required />
+                <div *ngIf="studentForm.get('email')?.touched && studentForm.get('email')?.invalid" class="text-danger">
+                  <small *ngIf="studentForm.get('email')?.errors?.['required']">Email is required.</small>
+                  <small *ngIf="studentForm.get('email')?.errors?.['email']">Invalid email format.</small>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="password" class="col-md-3 col-form-label">
+                <b>Password<span class="j">:</span></b>
+              </label>
+              <div class="col-md-9">
+                <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter Password"/>
+              <div *ngIf="studentForm.get('password')?.touched && studentForm.get('password')?.invalid" class="text-danger">
+                <small *ngIf="studentForm.get('password')?.errors?.['required']">Password is required.</small>
+                <small *ngIf="studentForm.get('password')?.errors?.['pattern']">Password must contain at least 1 uppercase, 1 lowecase,1 number and be at least 6 character</small>
+              </div>
+            </div>
+            </div>
+            <div class="row mb-3">
+              <label for="confirmPassword" class="col-md-3 col-form-label">
+                <b>Confirm Password<span class="k">:</span></b>
+              </label>
+              <div class="col-md-9">
+                <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirm Password" />
+               <div *ngIf="studentForm.get('confirmPassword')?.touched && studentForm.get('confirmPassword')?.invalid"class="text-danger" >
+                  <small *ngIf="studentForm.get('confirmPassword')?.errors?.['required']"> Confirm Password is required.</small>
+                </div>
+                <div *ngIf="studentForm.touched && studentForm.errors?.['mismatch']" class="text-danger" >
+                  <small>Passwords do not match.</small>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-9 offset-md-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="terms" formControlName="agreeTerms" />
+                  <label class="form-check-label" for="terms"> I agree to the Terms and Conditions</label>
+                  <div *ngIf="studentForm.get('agreeTerms')?.touched && studentForm.get('agreeTerms')?.invalid" class="text-danger">
+                  <small *ngIf="studentForm.get('agreeTerms')?.errors?.['required']">You must agree to the Terms and Conditions.
+                  </small>
+                </div>
+              </div>
+            </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-9 offset-md-3">
+                <button type="submit" class="btn btn-primary"style="width: 70px; margin-right: 10px;"> Submit </button>
+                <button type="button" class="btn btn-secondary" (click)="closeRegistrationForm()">Close</button>
+              </div>
+            </div>
+            
+  
+    
+            
+  
+            
+           
+            
+   
+                  
+                
+            
+            
+          
+          
+         
