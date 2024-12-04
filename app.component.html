@@ -1,35 +1,94 @@
-<app-registrationapp [studentToEdit]="studentToEdit" (onSubmitStudent)="addOrUpdateStudent($event)" (onClose)="closeRegistrationForm()" *ngIf="isModalOpen"></app-registrationapp>
+<div class="container mt-3">
+  <button class="btn btn-primary" (click)="openRegistrationForm()">Open Registration Form</button>
+  <table class="table table-bordered">
 
-<button class="btn btn-primary" (click)="openRegistrationForm()">OpenRegistrationForm</button>
+    <thead>
+      <tr>
+        <th (click)="sortData('name')">Name
+          <span class="name" *ngIf="sortColumn === 'name'">
+            {{ sortDirection === 'asc' ? '▲' : '▼' }}
+          </span>
+          <input type="text" class="form-control" [(ngModel)]="searchFilters.name" (input)="applyFilters()" />
+        </th>
+        
+        <th (click)="sortData('fatherName')">Father's Name
+          <span class="fatherName" *ngIf="sortColumn === 'fatherName'">
+            {{ sortDirection === 'asc' ? '▲' : '▼' }}
+          </span>
+          <input type="text" class="form-control" [(ngModel)]="searchFilters.fathersName" (input)="applyFilters()" />
+        </th>
+        <th (click)="sortData('gender')">Gender
+          <span class="gender" *ngIf="sortColumn === 'gender'">
+            {{ sortDirection === 'asc' ? '▲' : '▼' }}
+          </span>
+          <input type="text" class="form-control" [(ngModel)]="searchFilters.gender" (input)="applyFilters()" />
+        </th>
+        <th (click)="sortData('dob')">Date of Birth
+          <span class="dob" *ngIf="sortColumn === 'dob'">
+            {{ sortDirection === 'asc' ? '▲' : '▼' }}
+          </span>
+          <input type="text" class="form-control" [(ngModel)]="searchFilters.dob" (input)="applyFilters()" />
+        </th>
+        <th (click)="sortData('department')">Department
+          <span class="dep" *ngIf="sortColumn === 'department'">
+            {{ sortDirection === 'asc' ? '▲' : '▼' }}
+          </span>
+          <input type="text" class="form-control" [(ngModel)]="searchFilters.department" (input)="applyFilters()" />
+        </th>
+        <th>Address</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>  
+      <tr *ngFor="let student of paginatedData; let i = index">
+        <td>{{ student.name }}</td>
+        <td>{{ student.fatherName}}</td>
+        <td>{{ student.gender }}</td>
+        <td>{{ student.dob }}</td>
+        <td>{{ student.department }}</td>
+        <td>{{ student.address }}</td>
+        <td>{{ student.email }}</td>
+        <td>{{ student.password }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm" (click)="editStudent(i)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteStudent(i)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="isModalOpen" class="modal fade show" style="display: block;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Student Registration</h5>
+        <button type="button" class="close"(click)="closeRegistrationForm()"aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-registrationapp [studentToEdit]="studentToEdit"(onSubmitStudent)="addOrUpdateStudent($event)"(onClose)="closeRegistrationForm()">
+        </app-registrationapp>
+      </div>
+    </div>
+  </div>
+</div>
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Father's Name</th>
-      <th>Gender</th>
-      <th>Date of Birth</th>
-      <th>Department</th>
-      <th>Address</th>
-      <th>Email</th>
-      <th>Password</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let student of studentData; let i = index">
-      <td>{{ student.name }}</td>
-      <td>{{ student.fatherName }}</td>
-      <td>{{ student.gender }}</td>
-      <td>{{ student.dob }}</td>
-      <td>{{ student.department }}</td>
-      <td>{{ student.address }}</td>
-      <td>{{ student.email }}</td>
-      <td>{{ student.password }}</td>
-      <td>
-        <button class="btn btn-primary" (click)="editStudent(i)">Edit</button>
-        <button class="btn btn-danger" (click)="deleteStudent(i)">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<nav *ngIf="studentData.length > itemsPerPage">
+  <ul class="pagination">
+  <li class="page-item" [class.disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+      <a class="page-link">1</a>
+    </li>
+    <li class="page-item" *ngFor="let page of [].constructor(Math.ceil(filteredData.length / itemsPerPage)) | keys; let i = index" 
+        [class.active]="currentPage === i + 1" (click)="changePage(i + 1)">
+      <a class="page-link">{{ i + 1 }}</a>
+    </li>
+    <li class="page-item" [class.disabled]="currentPage === Math.ceil(filteredData.length / itemsPerPage)" (click)="changePage(currentPage + 1)">
+      <a class="page-link">2</a>
+    </li>
+  </ul>
+  <div class="page-info">
+    {{ currentPage }} of {{ Math.ceil(filteredData.length / itemsPerPage) }}
+  </div>
+</nav>
