@@ -1,12 +1,13 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { KeyPipe } from './key.pipe';
 
 @Component({
   selector: 'app-registrationapp',
   templateUrl: './registrationapp.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,  KeyPipe],
 })
 export class RegistrationappComponent {
   @Input() studentToEdit: any = null;
@@ -70,9 +71,10 @@ export class RegistrationappComponent {
   }
 
   addOrUpdateStudent() {
+    if (this.studentForm.valid) {
     this.formSubmitted = true;
 
-    if (this.studentForm.valid) {
+  
       this.onSubmitStudent.emit(this.studentForm.value);
       this.closeRegistrationForm();
     } else {
